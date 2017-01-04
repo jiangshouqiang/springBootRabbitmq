@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- 日志路径 -->
+    <property name="FILE_PATH" value="${LOG_PATH:-./log}"/>
+    <!-- 应用日志名称 -->
+    <property name="APP_LOG_FILE" value="C-DOCTOR.log"/>
+
+    <!-- 应用错误日志名称 -->
+    <property name="APP_ERROR_FILE" value="C-DOCTOR.error"/>
+
+    <!-- 系统日志名称 -->
+    <property name="SYS_LOG_FILE" value="C-DOCTOR-SYS.log"/>
+
+    <!-- 系统错误日志名称 -->
+    <property name="SYS_ERROR_FILE" value="C-DOCTOR-SYS.error"/>
+
+    <!-- 日志格式定义 -->
+    <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss:SSS} %-5level - %msg - %logger{36}%n"/>
+
+    <!-- 单个日志文件大小 -->
+    <property name="FILE_SIZE" value="20MB"/>
+
+
+    <!-- 用于控制台的日志输出 -->
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>${FILE_LOG_PATTERN}</Pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>info</level>
+        </filter>
+    </appender>
+
+    <!-- 用于文件的日志输出-系统日志 -->
+    <appender name="sysFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 正在记录的日志文件的路径及文件名 -->
+        <file>${FILE_PATH}/${SYS_LOG_FILE}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 归档方式及归档日志名 -->
+            <FileNamePattern>${FILE_PATH}/${SYS_LOG_FILE}.%d{yyyyMMdd}.%i</FileNamePattern>
+            <!-- 除按日志记录之外，还配置了日志文件不能超过4M，若超过4M，日志文件会以索引0开始，
+            命名日志文件，例如log-error-2013-12-21.0.log -->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${FILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+
+        <encoder>
+            <Pattern>${FILE_LOG_PATTERN}</Pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>info</level>
+        </filter>
+    </appender>
+
+    <!-- 单独记录error级别的日志输出-系统日志 -->
+    <appender name="sysErrorFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 正在记录的日志文件的路径及文件名 -->
+        <file>${FILE_PATH}/${SYS_ERROR_FILE}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 归档方式及归档日志名 -->
+            <FileNamePattern>${FILE_PATH}/${SYS_ERROR_FILE}.%d{yyyyMMdd}.%i</FileNamePattern>
+            <!-- 除按日志记录之外，还配置了日志文件不能超过4M，若超过4M，日志文件会以索引0开始，
+            命名日志文件，例如log-error-2013-12-21.0.log -->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${FILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+
+        <!-- 日志文件格式 -->
+        <encoder>
+            <Pattern>${FILE_LOG_PATTERN}</Pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>error</level>
+        </filter>
+    </appender>
+
+
+    <!-- 用于文件的日志输出-应用日志 -->
+    <appender name="fileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 正在记录的日志文件的路径及文件名 -->
+        <file>${FILE_PATH}/${APP_LOG_FILE}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 归档方式及归档日志名 -->
+            <FileNamePattern>${FILE_PATH}/${APP_LOG_FILE}.%d{yyyyMMdd}.%i</FileNamePattern>
+            <!-- 除按日志记录之外，还配置了日志文件不能超过4M，若超过4M，日志文件会以索引0开始，
+            命名日志文件，例如log-error-2013-12-21.0.log -->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${FILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+
+        <encoder>
+            <Pattern>${FILE_LOG_PATTERN}</Pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>info</level>
+        </filter>
+    </appender>
+
+
+    <!-- 单独记录error级别的日志输出-应用日志 -->
+    <appender name="errorFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 正在记录的日志文件的路径及文件名 -->
+        <file>${FILE_PATH}/${APP_ERROR_FILE}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 归档方式及归档日志名 -->
+            <FileNamePattern>${FILE_PATH}/${APP_ERROR_FILE}.%d{yyyyMMdd}.%i</FileNamePattern>
+            <!-- 除按日志记录之外，还配置了日志文件不能超过4M，若超过4M，日志文件会以索引0开始，
+            命名日志文件，例如log-error-2013-12-21.0.log -->
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${FILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+
+        <!-- 日志文件格式 -->
+        <encoder>
+            <Pattern>${FILE_LOG_PATTERN}</Pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>error</level>
+        </filter>
+    </appender>
+
+    <!-- 用于记录系统日志 -->
+    <root level="info">
+        <appender-ref ref="sysFileAppender"/>
+        <appender-ref ref="sysErrorFileAppender"/>
+
+        <!-- 生产环境关闭此项输出 -->
+        <appender-ref ref="consoleAppender"/>
+    </root>
+
+    <!-- 用于记录应用日志,日志内容不再向上级传递 -->
+    <logger name="com.yangai" level="info" additivity="false">
+        <appender-ref ref="fileAppender"/>
+        <appender-ref ref="errorFileAppender"/>
+
+        <!-- 生产环境关闭此项输出 -->
+        <appender-ref ref="consoleAppender"/>
+    </logger>
+
+</configuration>
