@@ -7,6 +7,7 @@ import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,9 @@ import com.gr.jiang.remoting.CommonReceiver;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.handler.annotation.support.DefaultMessageHandlerMethodFactory;
 
 /**
  * Created by jiang on 2017/1/4.
@@ -47,7 +51,12 @@ public class MessageQueueConfig {
         template.setMessageConverter(new Jackson2JsonMessageConverter());
         return template;
     }
-
+    @Bean
+    public DefaultMessageHandlerMethodFactory defaultMessageHandlerMethodFactory(){
+        DefaultMessageHandlerMethodFactory factory = new DefaultMessageHandlerMethodFactory();
+        factory.setMessageConverter(new MappingJackson2MessageConverter());
+        return factory;
+    }
     /**
      * 监听工厂
      *
@@ -59,7 +68,7 @@ public class MessageQueueConfig {
             ConnectionFactory connectionFactory) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
-        factory.setMessageConverter(new Jackson2JsonMessageConverter());
+//        factory.setMessageConverter((MessageConverter) new MappingJackson2MessageConverter());
         return factory;
     }
 
